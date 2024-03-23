@@ -1,10 +1,5 @@
-let searchHistory = [];
-
 const weatherApiRootUrl = 'https://api.openweathermap.org';
 const weatherApiKey = 'ed3886039111ea00953ef8af2d692ba1';
-
-//dayjs.extend(window.dayjs_plugin_utc);
-//dayjs.extend(window.dayjs_plugin_timezone);
 
 const searchFormEl = document.querySelector('#search-form');
 const searchInputEl = document.querySelector('#search-input');
@@ -13,11 +8,20 @@ const fivedayDivEl = document.querySelector('#five-day');
 const forecastContainerEl = document.querySelector('#forecast');
 const historyContainerEl = document.querySelector('#history');
 
+let searchHistory = [];
+if (localStorage.getItem('cities') !== null) {
+    searchHistory = JSON.parse(localStorage.getItem('cities'));
+    console.log(searchHistory);
+};
+
 const handleFormSubmit = function (event) {
     event.preventDefault();
     let cityInput = searchInputEl.value.trim();
     if (cityInput) {
+
         getCityWeather(cityInput);
+        getCityName(cityInput);
+
         todayContainerEl.textContent = '';
         fivedayDivEl.textContent = '';
         forecastContainerEl.textContent = '';
@@ -26,6 +30,7 @@ const handleFormSubmit = function (event) {
         alert('Please enter a city');
     };
 };
+
 //api fecth coordinate by city name
 const getCityWeather = function (cityInput) {
     let apiGeoUrl = `${weatherApiRootUrl}/geo/1.0/direct?q=${cityInput}&limit=1&appid=${weatherApiKey}`;
@@ -35,13 +40,30 @@ const getCityWeather = function (cityInput) {
             if (response.ok) {
                 response.json()
                     .then(function (data) {
-                        searchHistory.push(data[0].name);
-                        renderHistoryBtns();
                         const lon = data[0].lon;
                         const lat = data[0].lat;
                         const cityGeoUrl = `lat=${lat}&lon=${lon}`;
                         getWeatherCurrent(cityGeoUrl);
                         getWeatherForecast(cityGeoUrl);
+                    })
+            } else { alert(`Error:${response.statusText}`) }
+        }).catch(function (error) { alert('Unable to connect to openweathermap') })
+};
+
+//api fecth offical name by city name
+const getCityName = function (cityInput) {
+    let apiGeoUrl = `${weatherApiRootUrl}/geo/1.0/direct?q=${cityInput}&limit=1&appid=${weatherApiKey}`;
+
+    fetch(apiGeoUrl)
+        .then(function (response) {
+            if (response.ok) {
+                response.json()
+                    .then(function (data) {
+                        if (searchHistory.includes(data[0].name) !== true) {
+                            searchHistory.push(data[0].name);
+                            localStorage.setItem('cities', JSON.stringify(searchHistory));
+                            renderHistoryBtns();
+                        }
                     })
             } else { alert(`Error:${response.statusText}`) }
         }).catch(function (error) { alert('Unable to connect to openweathermap') })
@@ -60,6 +82,7 @@ const getWeatherCurrent = function (cityGeoUrl) {
             } else { alert(`Error:${response.statusText}`) }
         }).catch(function (error) { alert('Unable to connect to openweathermap') })
 };
+
 //api fetch 5-day forecast weather by coordinate
 const getWeatherForecast = function (cityGeoUrl) {
     let apiForecastUrl = `${weatherApiRootUrl}/data/2.5/forecast?${cityGeoUrl}&units=metric&appid=${weatherApiKey}`;
@@ -74,7 +97,7 @@ const getWeatherForecast = function (cityGeoUrl) {
         }).catch(function (error) { alert('Unable to connect to openweathermap') })
 };
 
-//render forecast div element
+//render forecast div 
 const renderForecast = function (data) {
     const forecastHeaderEl = document.createElement('h4');
     forecastHeaderEl.textContent = '5-Day Forecast:';
@@ -116,7 +139,8 @@ const renderForecast = function (data) {
         };
     };
 };
-//render today div element
+
+//render today div 
 const renderCurrent = function (data) {
 
     const currentIconCode = data.weather[0].icon;
@@ -148,29 +172,33 @@ const renderCurrent = function (data) {
 
 };
 
-const renderHistoryBtns =function(){
-    historyContainerEl.innerHTML ='';
+//render history div 
+const renderHistoryBtns = function () {
+    historyContainerEl.innerHTML = '';
 
-    for(let i = searchHistory.length-1; i>=0; i--){
+    for (let i = searchHistory.length - 1; i >= 0; i--) {
         const btn = document.createElement('button');
-        btn.setAttribute('type','button');
-        btn.setAttribute('class','d-block fw-bold btn btn-history col-12 mt-3 mb-3 text-dark');
-        btn.setAttribute('data-search',searchHistory[i]);
-        btn.textContent= searchHistory[i];
+        btn.setAttribute('type', 'button');
+        btn.setAttribute('class', 'd-block fw-bold btn btn-history col-12 mt-3 mb-3 text-dark');
+        btn.setAttribute('data-search', searchHistory[i]);
+        btn.textContent = searchHistory[i];
         historyContainerEl.appendChild(btn);
-    }
-}
+    };
+};
 
-historyContainerEl.addEventListener('click', function(event){
-    const element= event.target;
-    if(element.matches('button')===true){
+
+historyContainerEl.addEventListener('click', function (event) {
+    const element = event.target;
+    if (element.matches('button') === true) {
+        const citySelected = element.textContent;
+        getCityWeather(citySelected);
+
         todayContainerEl.textContent = '';
         fivedayDivEl.textContent = '';
         forecastContainerEl.textContent = '';
-        const citySelected =element.textContent;
-        getCityWeather(citySelected);
-        renderHistoryBtns;
     }
 })
 
+
+renderHistoryBtns();
 searchFormEl.addEventListener('submit', handleFormSubmit);
