@@ -8,19 +8,17 @@ h6 {
   line-height: 1.25;
 }
 
+.btn-history{
+    background-color: silver;
+}
+
 #dashboard-header{
     background-color: midnightblue;
     background: linear-gradient(0.25turn, #0d6efd, midnightblue);
 }
 
-#today h3{
-    position: absolute;
-}
-
-
 #current-icon{
     position: relative;
-    left: 200px;
     top: -5px;
 }
 
