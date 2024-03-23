@@ -10,12 +10,12 @@
   <!--fonts-->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
-  <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/style.css"/>
 </head>
 
 <body>
-  <header >
-    <h1 class="bg-primary bg-gradient p-3 text-center text-light">Weather Dashboard</h1>
+  <header id="dashboard-header" >
+    <h1 class="p-3 text-center text-light">Weather Dashboard</h1>
   </header>
 
   <div class="row m-3">
@@ -28,8 +28,11 @@
       <div id="history"></div>
     </div>
     <div id="column-right" class="col-9">
-      <div class="border border-secondary"id="today"></div>
-      <div class="row" id="forecast"></div>
+      <div id="today"></div>
+      <div class="row" id="five-day">
+        <div class="row" id="forecast"></div>
+      </div>
+     
     </div>
   </div>
 
