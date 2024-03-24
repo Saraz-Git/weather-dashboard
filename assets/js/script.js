@@ -3,10 +3,9 @@ const weatherApiKey = 'ed3886039111ea00953ef8af2d692ba1';
 
 const searchFormEl = document.querySelector('#search-form');
 const searchInputEl = document.querySelector('#search-input');
-const todayContainerEl = document.querySelector('#today');
-const fivedayDivEl = document.querySelector('#five-day');
-const forecastContainerEl = document.querySelector('#forecast');
 const historyContainerEl = document.querySelector('#history');
+const todayContainerEl = document.querySelector('#today');
+const forecastContainerEl = document.querySelector('#forecast');
 
 let searchHistory = [];
 if (localStorage.getItem('cities') !== null) {
@@ -23,8 +22,7 @@ const handleFormSubmit = function (event) {
         getCityName(cityInput);
 
         todayContainerEl.textContent = '';
-        fivedayDivEl.textContent = '';
-        forecastContainerEl.textContent = '';
+        forecastContainerEl.innerHTML = '';
         searchInputEl.value = '';
     } else {
         alert('Please enter a city');
@@ -101,9 +99,13 @@ const getWeatherForecast = function (cityGeoUrl) {
 const renderForecast = function (data) {
     const forecastHeaderEl = document.createElement('h4');
     forecastHeaderEl.textContent = '5-Day Forecast:';
-    fivedayDivEl.appendChild(forecastHeaderEl);
+    forecastContainerEl.appendChild(forecastHeaderEl);
+    const fiveDayEl =document.createElement('div');
+    forecastContainerEl.appendChild(fiveDayEl);
+    fiveDayEl.setAttribute('class','row');
 
     for (let i = 0; i < data.list.length; i++) {
+        console.log(data.list[i]);
         if (i % 8 === 7) {
 
             const iconcode = data.list[i].weather[0].icon;
@@ -133,9 +135,8 @@ const renderForecast = function (data) {
             forecastCardsEl.appendChild(forecastTempEl);
             forecastCardsEl.appendChild(forecastWindEl);
             forecastCardsEl.appendChild(forecastHumidityEl);
-            forecastContainerEl.appendChild(forecastCardsEl);
-            fivedayDivEl.appendChild(forecastContainerEl);
-            fivedayDivEl.setAttribute('class', 'mt-3');
+            fiveDayEl.appendChild(forecastCardsEl);
+            forecastContainerEl.setAttribute('class', 'mt-3');
         };
     };
 };
@@ -186,16 +187,13 @@ const renderHistoryBtns = function () {
     };
 };
 
-
 historyContainerEl.addEventListener('click', function (event) {
     const element = event.target;
     if (element.matches('button') === true) {
         const citySelected = element.textContent;
         getCityWeather(citySelected);
-
-        todayContainerEl.textContent = '';
-        fivedayDivEl.textContent = '';
-        forecastContainerEl.textContent = '';
+        todayContainerEl.innerHTML = '';
+        forecastContainerEl.innerHTML = '';
     }
 })
 

@@ -10,12 +10,14 @@
   <!--fonts-->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
-  <link rel="stylesheet" href="./assets/css/style.css"/>
+  <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 
 <body>
-  <header id="dashboard-header" >
+  <header class="d-flex flex-row justify-content-center align-items-center"id="dashboard-header">
     <h1 class="p-3 text-center text-light">Weather Dashboard</h1>
+    <span style="font-size: 30px; color: White;"><i class="fa-solid fa-rainbow"></i></span>
+    
   </header>
 
   <div class="row m-3">
@@ -29,19 +31,9 @@
     </div>
     <div id="column-right" class="col-9">
       <div id="today"></div>
-      <div class="row" id="five-day">
-        <div class="row" id="forecast"></div>
-      </div>
-     
+      <div id="forecast"></div>
     </div>
   </div>
-
-
-
-
-
-
-
 
   <!--Bootstrap JavaScript-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -50,6 +42,7 @@
   <!--Dayjs JavaScript-->
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
     integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/4ca36e5657.js" crossorigin="anonymous"></script>
   <!--own JavaScript-->
   <script src="./assets/js/script.js"></script>
 </body>
