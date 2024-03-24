@@ -104,9 +104,9 @@ const renderForecast = function (data) {
     forecastContainerEl.appendChild(fiveDayEl);
     fiveDayEl.setAttribute('class','row');
 
-    for (let i = 0; i < data.list.length; i++) {
-        console.log(data.list[i]);
-        if (i % 8 === 7) {
+    for (let i = 1; i < data.list.length; i++) {
+        console.log(data.list[i].dt_txt);
+        if (i % 8 === 0) {
 
             const iconcode = data.list[i].weather[0].icon;
             const iconUrl = "http://openweathermap.org/img/w/" + iconcode + ".png";
@@ -114,7 +114,6 @@ const renderForecast = function (data) {
 
             const forecastCardsEl = document.createElement('div');
             forecastCardsEl.setAttribute('class', 'card col m-2 text-light')
-
 
             const forecastDateEl = document.createElement('h5');
             const forecastIconEl = document.createElement('img');
