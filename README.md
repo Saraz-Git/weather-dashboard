@@ -11,7 +11,7 @@ The following image shows the web application's appearance and functionality:
 ![The weather app includes a search option, a list of cities, and a five-day forecast and current weather conditions for Atlanta.](./assets/06-server-side-apis-homework-demo.png)
 
 ## Feature
-```
+
 GIVEN a weather dashboard with form inputs
 
 WHEN I search for a city
@@ -25,9 +25,9 @@ THEN I am presented with a 5-day forecast that displays the date, an icon repres
 
 WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
-```
+
 ## Deploy
 
-* The URL of the deployed application
+* The URL of the deployed application:  https://saraz-git.github.io/weather-dashboard/
 
 * The URL of the GitHub repository: https://github.com/Saraz-Git/weather-dashboard
