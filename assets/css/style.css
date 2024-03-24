@@ -22,6 +22,14 @@ h6 {
     top: -5px;
 }
 
+#tooltip{
+    color:grey;
+    font-size: xx-small;
+    position: relative;
+    top: 12.5px;
+    left:5px;
+}
+
 #forecast .card{
     background-color: midnightblue;
 }

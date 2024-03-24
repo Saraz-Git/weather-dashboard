@@ -100,14 +100,12 @@ const renderForecast = function (data) {
     const forecastHeaderEl = document.createElement('h4');
     forecastHeaderEl.textContent = '5-Day Forecast:';
     forecastContainerEl.appendChild(forecastHeaderEl);
-    const fiveDayEl =document.createElement('div');
+    const fiveDayEl = document.createElement('div');
     forecastContainerEl.appendChild(fiveDayEl);
-    fiveDayEl.setAttribute('class','row');
+    fiveDayEl.setAttribute('class', 'row');
 
     for (let i = 0; i < data.list.length; i++) {
         if (i % 8 === 7) {
-            console.log(i);
-
             const iconcode = data.list[i].weather[0].icon;
             const iconUrl = "http://openweathermap.org/img/w/" + iconcode + ".png";
             const iconAlt = data.list[i].weather[0].description;
@@ -146,9 +144,12 @@ const renderCurrent = function (data) {
     const currentIconCode = data.weather[0].icon;
     const currentIconUrl = "http://openweathermap.org/img/w/" + currentIconCode + ".png";
     const currentIconEl = document.createElement('img');
+    const currentTooltipEl = document.createElement('p');
+    currentTooltipEl.setAttribute('id', 'tooltip');
     currentIconEl.setAttribute('src', currentIconUrl);
     currentIconEl.setAttribute('alt', data.weather[0].description);
     currentIconEl.setAttribute('id', 'current-icon');
+
 
     const currentHeaderEl = document.createElement('div');
     const cityDateEl = document.createElement('h3');
@@ -157,7 +158,9 @@ const renderCurrent = function (data) {
 
     currentHeaderEl.appendChild(cityDateEl);
     currentHeaderEl.appendChild(currentIconEl);
+    currentHeaderEl.appendChild(currentTooltipEl);
     todayContainerEl.appendChild(currentHeaderEl);
+
 
     const currentTempEl = document.createElement('h6');
     const currentWindEl = document.createElement('h6');
@@ -165,10 +168,19 @@ const renderCurrent = function (data) {
     currentTempEl.textContent = `Temp: ${data.main.temp}°C`;
     currentWindEl.textContent = `Wind: ${data.wind.speed} m/s`;
     currentHumidityEl.textContent = `Humidity: ${data.main.humidity}%`;
+
     todayContainerEl.appendChild(currentTempEl);
     todayContainerEl.appendChild(currentWindEl);
     todayContainerEl.appendChild(currentHumidityEl);
     todayContainerEl.setAttribute('class', 'border border-2 border-secondary p-2');
+
+    currentIconEl.addEventListener("mouseover", (e) => {
+        currentTooltipEl.textContent = data.weather[0].description;
+    });
+
+    currentIconEl.addEventListener("mouseleave", (e) => {
+        currentTooltipEl.textContent = '';
+    });
 
 };
 
