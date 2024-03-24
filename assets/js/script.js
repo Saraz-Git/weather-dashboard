@@ -197,6 +197,5 @@ historyContainerEl.addEventListener('click', function (event) {
     }
 })
 
-
-renderHistoryBtns();
 searchFormEl.addEventListener('submit', handleFormSubmit);
+renderHistoryBtns();
